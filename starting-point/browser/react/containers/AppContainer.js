@@ -210,7 +210,7 @@ export default class AppContainer extends Component {
   }
 
   render () {
-    console.log(this.state);
+    console.log('state at render', this.state);
 
     const props = Object.assign({}, this.state, {
       toggleOne: this.toggleOne,
