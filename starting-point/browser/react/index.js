@@ -11,9 +11,6 @@ import NewPlaylistContainer from './containers/NewPlaylistContainer';
 import Playlist from './components/Playlist';
 import LyricsContainer from './containers/LyricsContainer';
 
-import store from './store';
-import {setLyrics} from './action-creators/lyrics';
-
 ReactDOM.render(
   <Router history={hashHistory}>
     <Route path='/' component={AppContainer} foo={'foo'}>

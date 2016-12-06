@@ -10,7 +10,7 @@ export default class LyricsContainer extends React.Component {
     super(props)
     this.state = Object.assign({
       artistQuery: '',
-      songQuery: ''
+      songQuery: '',
     }, store.getState()
     );
 
@@ -27,14 +27,17 @@ export default class LyricsContainer extends React.Component {
     this.setState({songQuery: string})
   }
 
+  fetchLyrics (artist, song) {
+    return function (dispatch, getState) {
+      axios.get(`/api/lyrics/${artist}/${song}`)
+        .then(res => {
+          dispatch(setLyrics(res.data.lyric));
+        })
+    }
+  }
+
   handleSubmit () {
-    axios.get(`/api/lyrics/${this.state.artistQuery}/${this.state.songQuery}`)
-    .then(res => res.data)
-    .then(lyrics => {
-      const newLyrics = setLyrics(lyrics);
-      store.dispatch(newLyrics);
-      console.log(store.getState());
-    })
+    return store.dispatch(this.fetchLyrics(this.state.artistQuery, this.state.songQuery));
   }
 
   componentDidMount () {
@@ -49,7 +52,7 @@ export default class LyricsContainer extends React.Component {
 
   render () {
     return (
-      <Lyrics setArtist = {this.setArtist} setSong = {this.setSong} handleSubmit = {this.handleSubmit} />
+      <Lyrics setArtist = {this.setArtist} setSong = {this.setSong} handleSubmit = {this.handleSubmit} text = {this.state.lyrics.lyrics} />
     )
   }
 }
